@@ -1,5 +1,8 @@
 # Fhem chef Cookbook
 
+![Fhem web up and
+running](https://raw.github.com/nixterrimus/fhem-chef-cookbook/master/screenshots/web.png)
+
 A chef cookbook to setup the [Fhem](http://fhem.de/) home automation system.  After this cookbook is run, the server will be running a web server on [localhost:8083](http://localhost:8083) and a telnet server on localhost:7073.
 
 ## Requirements
