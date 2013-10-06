@@ -5,7 +5,7 @@
 
 #include_recipe "cpan"
 
-package = "fhem_#{node[:fhem][:version]}.deb"
+package = "fhem-#{node[:fhem][:version]}.deb"
 
 remote_file "/tmp/#{package}" do
   source "http://fhem.de/#{package}"
