@@ -1,1 +1,1 @@
-default["fhem"]["version"]          = "5.4"
+default["fhem"]["version"]          = "5.5"
