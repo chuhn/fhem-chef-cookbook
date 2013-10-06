@@ -15,7 +15,7 @@ end
 
 # some magic to auto-install the package dependencies
 #  this should be part of the dpkg_package provider …
-`dpkg-deb -I {#package}`.match("^ Depends: (.*)")[1].split(/,\s+/).each do |dep| 
+`dpkg-deb -I /tmp/#{package}`.match("^ Depends: (.*)")[1].split(/,\s+/).each do |dep| 
   # TODO: we cannot handle the version requirement
   # because the package provider does not support version ranges (ie. minimum versions)
   # TODO #2: handle or'ed dependencies: 'pkg1 | pkg2'
