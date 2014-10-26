@@ -39,3 +39,42 @@ end
 #  user 'root'
 #  group 'root'
 #end
+
+# let's increase FHEMs lousy default security a bit:
+if node[:fhem][:basicAuth]
+  # we talk to FHEM via telnet now instead of messing up the config file directly:
+  require 'net/telnet'
+  require 'base64'
+  
+  fhem = Net::Telnet.new('Host' => 'localhost', 'Port' => 7072) #, 'Prompt' => 'fhem> ')
+  fhem.cmd("attr WEB basicAuth " + Base64.encode64("#{node[:fhem][:basicAuth][:username]}:#{node[:fhem][:basicAuth][:password]}"))
+  fhem.close
+end
+
+if node[:fhem][:ssl]
+  
+  package 'libio-socket-ssl-perl'
+  
+  if node[:fhem][:ssl][:snakeoil]
+    # make use of Debian's pregenerated snakeoil certs
+
+    # this will grant fhem access to the private key:
+    group 'ssl-cert' do
+      members 'fhem'
+      append true
+    end
+
+    link '/opt/fhem/certs/server-cert.pem' do
+      to '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+    end
+    link  '/opt/fhem/certs/server-key.pem' do
+      to '/etc/ssl/certs/ssl-cert-snakeoil.key'
+    end
+  else
+    # TODO: pull key and cert from a databag?
+  end
+
+  fhem = Net::Telnet.new('Host' => 'localhost', 'Port' => 7072) #, 'Prompt' => 'fhem> ')
+  fhem.cmd("attr WEB HTTPS")
+  fhem.close
+end
