@@ -10,7 +10,11 @@ end
 
 def send (command)
   fhem = Net::Telnet.new('Host' => 'localhost', 'Port' => 7072) #, 'Prompt' => 'fhem> ')
-  fhem.cmd(command)
+  begin
+    fhem.cmd(command)
+  rescue Timeout::Error => e
+      Chef::Log.warn("Could not talk to FHEM process via telnet: #{e.message}")
+  end
   # TODO: check for success?
   fhem.close
 end
