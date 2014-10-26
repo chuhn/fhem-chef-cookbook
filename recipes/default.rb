@@ -44,7 +44,7 @@ end
 if node[:fhem][:basicAuth]
   require 'base64'
   
-  fhem_commamd "attr WEB basicAuth " + Base64.encode64("#{node[:fhem][:basicAuth][:username]}:#{node[:fhem][:basicAuth][:password]}")
+  fhem_command "attr WEB basicAuth " + Base64.encode64("#{node[:fhem][:basicAuth][:username]}:#{node[:fhem][:basicAuth][:password]}")
 end
 
 if node[:fhem][:ssl]
