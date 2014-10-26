@@ -42,13 +42,9 @@ end
 
 # let's increase FHEMs lousy default security a bit:
 if node[:fhem][:basicAuth]
-  # we talk to FHEM via telnet now instead of messing up the config file directly:
-  require 'net/telnet'
   require 'base64'
   
-  fhem = Net::Telnet.new('Host' => 'localhost', 'Port' => 7072) #, 'Prompt' => 'fhem> ')
-  fhem.cmd("attr WEB basicAuth " + Base64.encode64("#{node[:fhem][:basicAuth][:username]}:#{node[:fhem][:basicAuth][:password]}"))
-  fhem.close
+  fhem_commamd "attr WEB basicAuth " + Base64.encode64("#{node[:fhem][:basicAuth][:username]}:#{node[:fhem][:basicAuth][:password]}")
 end
 
 if node[:fhem][:ssl]
@@ -74,7 +70,5 @@ if node[:fhem][:ssl]
     # TODO: pull key and cert from a databag?
   end
 
-  fhem = Net::Telnet.new('Host' => 'localhost', 'Port' => 7072) #, 'Prompt' => 'fhem> ')
-  fhem.cmd("attr WEB HTTPS")
-  fhem.close
+  fhem_command "attr WEB HTTPS"
 end
