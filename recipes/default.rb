@@ -60,11 +60,13 @@ if node[:fhem][:ssl]
       append true
     end
 
+    directory "/opt/fhem/certs"
+
     link '/opt/fhem/certs/server-cert.pem' do
       to '/etc/ssl/certs/ssl-cert-snakeoil.pem'
     end
     link  '/opt/fhem/certs/server-key.pem' do
-      to '/etc/ssl/certs/ssl-cert-snakeoil.key'
+      to '/etc/ssl/private/ssl-cert-snakeoil.key'
     end
   else
     # TODO: pull key and cert from a databag?
@@ -72,3 +74,6 @@ if node[:fhem][:ssl]
 
   fhem_command "attr WEB HTTPS"
 end
+
+# finally save the fhem config:
+fhem_command "save"
